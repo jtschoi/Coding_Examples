@@ -8,8 +8,16 @@
 <br/>
 
 ## Contents
-### Python codes
+### Python code samples
+#### a. Large-scale Computing and Local Parallelization
+
+#### b. Web-scraping
+
+#### c. Machine Learning Methods
 
 ### Stata codes
+#### a. Simulations and Econometric Methods
+
+#### b. Data Cleaning
 
 ### R codes
