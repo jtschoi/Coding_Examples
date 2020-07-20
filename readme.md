@@ -5,3 +5,8 @@
 > This repository contains example codes in Python, Stata, and R that may be relevant in assessing my proficiency as a research assistant / professional.
 
 ## Contents
+### Python codes
+
+### Stata codes
+
+### R codes
