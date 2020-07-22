@@ -17,8 +17,6 @@
 > Contains a `.ipynb` file that compares different machine learning models with hyperparameter tuning (via cross-validation) to show basic exposure to methods in machine learning. Also contains a `.pdf` version of an `.ipynb` file used in completing an assignment for the class *Applied Econometrics* at the University of Chicago, testing different nonparametric methods.
 
 ### Stata code samples
-#### a. Simulations and Econometric Methods
-
-#### b. Data Cleaning
+> Contains two `.do` files. `simulation_exercise.do` was written to complete an assignment for the class *Applied Econometrics* at the University of Chicago, testing different estimation methods (fixed effects and instrumental variables). `data_analysis_example.do` is a sample for data cleaning and conducting basic regressions using Stata.
 
 ### R codes
