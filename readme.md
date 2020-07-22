@@ -14,9 +14,9 @@
 #### b. Web-scraping
 > Contains two `.py` files that collects URL and within-page information for the UChicago MA thesis research, which uses Selenium to conducting "dynamic" web-scraping and `joblib` for embarrassingly-parallel execution.
 #### c. Machine Learning Methods
-> Contains a `.ipynb` file that compares different machine learning models with hyperparameter tuning (via cross-validation) to show basic exposure to methods in machine learning.
+> Contains a `.ipynb` file that compares different machine learning models with hyperparameter tuning (via cross-validation) to show basic exposure to methods in machine learning. Also contains a `.pdf` version of an `.ipynb` file used in completing an assignment for the class *Applied Econometrics* at the University of Chicago, testing different nonparametric methods.
 
-### Stata codes
+### Stata code samples
 #### a. Simulations and Econometric Methods
 
 #### b. Data Cleaning
