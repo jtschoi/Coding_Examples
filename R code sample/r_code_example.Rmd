@@ -1,0 +1,270 @@
+---
+title: "HW1 BUSN 41912"
+subtitle: "Professor Ruey Tsay"
+author: "Submitted by Junho Choi"
+output:
+  html_notebook: default
+  pdf_document: default
+---
+<br />
+
+### Question 1
+
+Before tackling the question, I will first load the county-level and state-level datasets. I have preprocessed them using Python and added relevant longtitude and latitutde information for bubble-plotting on the U.S. map. The code for preprocessing are available in the Coding Appendix (at the end of the document).
+
+```{r setup, echo=FALSE, warning=FALSE}
+## Setting Workspace
+setwd('D:/UChicago/19-20_Quarter3/BUSN_41912/HW1')
+
+## county
+county_0331 <- read.csv(file='county_0331.csv')
+county_0403 <- read.csv(file='county_0403.csv')
+
+## state
+state_0331 <- read.csv(file='state_0331.csv')
+state_0403 <- read.csv(file='state_0403.csv')
+```
+
+I also load libraries that will be useful for plotting the bubble plots as follows:
+```{r some-libraries, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(usmap)
+```
+
+#### 1-(a). Plots for March 31, 2020 data
+
+Firstly, I reformat the data so that it can be used in conjunction with the library `usmap`. 
+
+```{r 0331-reorder}
+reorder_county_0331 <- county_0331[,c(9, 8, 1, 2, 3, 4, 5, 6, 7)]
+county_0331_tr <- usmap_transform(reorder_county_0331)
+
+reorder_state_0331 <- state_0331[,c(8, 7, 1, 2, 3, 4, 5, 6)]
+state_0331_tr <- usmap_transform(reorder_state_0331)
+```
+
+First I plot the US cumulative cases by state on March 31st, 2020, using the code below:
+```{r state_0331, warning=FALSE, echo=FALSE}
+plot_usmap() +
+  geom_point(data=state_0331_tr,
+             aes(x=longitude.1, y=latitude.1, size=cases,
+                 color=cases, alpha=cases), stroke=FALSE) +
+  labs(title="US Cumulative Cases of COVID-19 by State on March 31st, 2020",
+       subtitle="Data Source: NYT") +
+  scale_color_gradient(name = "Cases", low = "#FD7504",
+                       high = "#F30A03") +
+  scale_alpha_continuous(name = "Cases") +
+  scale_size_continuous(name = "Cases") +
+  guides(color=guide_legend(), size=guide_legend(), alpha=guide_legend()) +
+  theme(legend.position="right")
+```
+As expected, the states of New York and New Jersey are having the greatest number of cumulative cases. Now we plot the county-level cumulative cases using the code below:
+
+```{r county-0331, warning=FALSE, echo=FALSE}
+plot_usmap() +
+  geom_point(data=county_0331_tr,
+             aes(x=longitude.1, y=latitude.1, size=cases,
+                 color=cases, alpha=cases), stroke=FALSE) +
+  labs(title="US Cumulative Cases of COVID-19 by County on March 31st, 2020",
+       subtitle="Data Source: NYT") +
+  scale_color_gradient(name = "Cases", low = "#04AEFD",
+                       high = "#F30A03") +
+  scale_alpha_continuous(name = "Cases") +
+  scale_size_continuous(name = "Cases") +
+  guides(color=guide_legend(), size=guide_legend(), alpha=guide_legend()) +
+  theme(legend.position="right")
+```
+
+#### 1-(b). Plots for April 3, 2020 data
+
+Similar to above, I transform the datasets to be able to use them in conjunction with the `usmap` library.
+
+```{r reorder-0403}
+reorder_county_0403 <- county_0403[,c(9, 8, 1, 2, 3, 4, 5, 6, 7)]
+county_0403_tr <- usmap_transform(reorder_county_0403)
+
+reorder_state_0403 <- state_0403[,c(8, 7, 1, 2, 3, 4, 5, 6)]
+state_0403_tr <- usmap_transform(reorder_state_0403)
+```
+
+Next, I will plot the datasets for state-level and county-level (in that order). The codes for these are suppressed as they are much similar to the ones above.
+
+```{r state_0403, warning=FALSE, echo=FALSE}
+plot_usmap() +
+  geom_point(data=state_0403_tr,
+             aes(x=longitude.1, y=latitude.1, size=cases,
+                 color=cases, alpha=cases), stroke=FALSE) +
+  labs(title="US Cumulative Cases of COVID-19 by State on March 31st, 2020",
+       subtitle="Data Source: NYT") +
+  scale_color_gradient(name = "Cases", low = "#FD7504",
+                       high = "#F30A03") +
+  scale_alpha_continuous(name = "Cases") +
+  scale_size_continuous(name = "Cases") +
+  guides(color=guide_legend(), size=guide_legend(), alpha=guide_legend()) +
+  theme(legend.position="right")
+```
+
+
+```{r county-0403, warning=FALSE, echo=FALSE}
+plot_usmap() +
+  geom_point(data=county_0403_tr,
+             aes(x=longitude.1, y=latitude.1, size=cases,
+                 color=cases, alpha=cases), stroke=FALSE) +
+  labs(title="US Cumulative Cases of COVID-19 by County on April 3rd, 2020",
+       subtitle="Data Source: NYT") +
+  scale_color_gradient(name = "Cases", low = "#04AEFD",
+                       high = "#F30A03") +
+  scale_alpha_continuous(name = "Cases") +
+  scale_size_continuous(name = "Cases") +
+  guides(color=guide_legend(), size=guide_legend(), alpha=guide_legend()) +
+  theme(legend.position="right")
+```
+
+#### 1-(c). Comparison of 1-(a) and 1-(b)
+For this question, I will compare the county-level bubble plots. By comparing the two county-level plots, it is clearly visible that just in 3 or so days, cumulative cases has risen significantly in their magnitude, especially for the major cities in the east coast. However, it is not straightforward when trying to see the exact magnitude in such changes; in light of this, a clearer plot could be made for visualizing the rise of cumulative COVID-19 cases by using data from both dates. Also, it may be beneficial to also make similar plots for the number of deaths (or deaths-to-cases ratio) to see which states or counties are doing well in containing the disease and making sure its constituents are treated well.
+
+### Question 2
+Before solving Questions 2-4, I first load the MVA library and the `USairpollution` dataset:
+```{r use_library, warning=FALSE}
+library(MVA)
+data("USairpollution")
+```
+
+Firstly, I find the Pearson correlation coefficients using all data. This can be done as follows, using the `cor` command. I round up the numbers to ten-thousandths for neatness, using the `round` command.
+
+```{r pearson-with-all-data}
+## Pearson correlation using all data
+round(cor(USairpollution), 4)
+```
+
+Next, I plot the bivariate boxplot (with the scatterplots) of each pair of variables in the US air pollution dataset. These plots are provided at the end of this document (in the Appendix section), in Figures 1 to 5. To generate a subset of the US air pollution dataset that does not include potential outliers, I will inspect the plots in Figures 1 to 5 (in conjunction with the R dataframe) and remove what are described as "outside the 'fence'" in Everitt and Hothorn (2011, p.29). This can be manually done by using the below code, and note that I remove an observation if it is outside the said "fence" in _any_ bivariate boxplot.
+
+```{r subsetting-no-outlier}
+## temporary subsetting for no outliers; Figure 1
+no_ol <- subset(USairpollution, SO2<=80 & temp<=75) # subfigure 1
+no_ol <- subset(no_ol, manu<=1000) # subfigure 2
+no_ol <- subset(no_ol, popul<=1200) # subfigure 3
+# subfigure 4 is redundant
+no_ol <- subset(no_ol, precip>=10) # subfigure 5
+no_ol <- subset(no_ol, predays!=max(USairpollution[, 'predays'])) # subfigure 6
+no_ol <- subset(no_ol, predays!=min(USairpollution[, 'predays'])) # again, subfigure 6
+
+## temporary subsetting for no outliers; Figure 2
+no_ol <- subset(no_ol, manu<=1400) # subfigure 1
+no_ol <- subset(no_ol, !(temp<=60 & popul>=1000)) # subfigure 2
+no_ol <- subset(no_ol, temp<=70) # subfigure 3
+no_ol <- subset(no_ol, precip>=13) # subfigure 4
+# subfigure 5 is redundant
+
+## temporary subsetting for no outliers; Figure 3
+no_ol <- subset(no_ol, manu<=1000) # subfigure 1
+# subfigures 2, 3, and 4 are redundant
+
+## temporary subsetting for no outliers; Figure 4
+no_ol <- subset(no_ol, popul<=1500) # subfigures 1, 2, and 3
+
+## finalizing subsetting for no outliers; Figure 5
+# subfigures 1 and 2 are redundant
+no_ol <- subset(no_ol, predays>=60)
+
+```
+<br />
+As a result of this code, there are only 30 observations in the subsetted dataframe `no_ol' without outliers. I produce the Pearson correlation coefficients as follows:
+
+```{r pearson-with-no-ol}
+## Pearson correlation using the data without outliers
+round(cor(no_ol), 4)
+```
+
+### Question 3
+First, I will compute (using `cor` command) the Kendall's tau using (i) all data and (ii) the data with outliers removed, and compare the two cases. Below are the said computations:
+```{r Kendall-tau-all-data}
+## (i) Kendall's tau using all data
+round(cor(USairpollution, method='kendall'), 4)
+```
+
+```{r Kendall-tau-no-ol}
+## (ii) Kendall's tau with outliers removed
+round(cor(no_ol, method='kendall'), 4)
+```
+
+When comparing the entire dataset to the one without the outliers, the following can be observed. I begin with Kendall's tau (abbreviated as $\tau$) with `SO2` involved. It is noticeable that $\tau$ values between `SO2` and the variables `popul`, `wind`, and `precip` have changed their signs. This suggests that (Kendall) correlations for these relationships were significantly driven by outliers. Those between `SO2` and the variables `temp` and `manu` have their signs same, but their magnitudes have fallen (especially for $\tau$ with `SO2` and `manu`); this suggests that outliers had exaggerated the correlations between `SO2` and the said variables. That between `SO2` and `predays`, however, has retained its sign and became larger in magnitude, suggesting that due to outliers, the correlation was understated.
+
+We can make similar assessments for others as well. For $\tau$ values involving `temp`, those between `temp` and the variables `manu`, `wind`, and `predays` have retained their signs but became smaller in magnitude. $\tau$ between `temp` and the variables `popul` and `precip` have retained their signs and became larger in magnitude. That invoving `SO2` as well has been dealt with previously.
+
+For $\tau$ values involving `manu`, those between `manu` and the variables `popul`, `wind`, and `predays` have retained their signs but became smaller in magnitude; $\tau$ between `manu` and `precip` retained its sign and became larger in magnitude. Those invoving `SO2` and `temp` as well have been dealt with previously.
+
+For $\tau$ values involving `popul`, that between `popul` and `wind` is almost unaffected by removal of outliers. It seems that the said removal may have been done in a "balanced" manner with respect to order so that $\tau$ was more or less the same. $\tau$ between `popul` and `precip` has slightly increased in magnitude (with no change in sign), yet that between `popul` and `predays` has its sign turned negative (with increased magnitude) after the outliers removed. Those invoving `SO2`, `temp`, and `manu` as well have been dealt with previously.
+
+For $\tau$ values involving `wind`, that between `wind` and `precip` has retained its sign and has become stronger in its magnitude, whereas that between `wind` and `predays` not only increased in magnitude but also changed its signs when removing the outliers. Those invoving `SO2`, `temp`, `manu`, and `popul` as well have been dealt with previously.
+
+Finally, for $\tau$ values involving `precip`, that between `precip` and `predays` has decreased in its magnitude while retaining the sign. All other relationships have been dealt with previously.
+
+<br />
+
+Now I compute (again using the `cor` command) the Spearman's rho using (i) all data and (ii) the data with outliers removed, and compare the two cases. For these computations, see below:
+
+```{r Spearman-rho-all-data}
+## (i) Spearman's rho using all data
+round(cor(USairpollution, method='spearman'), 4)
+```
+
+```{r Spearman-rho-no-ol}
+## (ii) Spearman's rho with outliers removed
+round(cor(no_ol, method='spearman'), 4)
+```
+
+For the Spearman's rho (abbreviated as $\rho$) results, we roughly have the similar results as in those for $\tau$ regarding the signs and magnitude changes of the coefficients. The exceptions are as follows. For $\rho$ between `SO2` and `precip`, the said value was already negative (although very close to zero) in the calculation using the entire dataset, but its magnitude becomes greater after removing the outliers. That between `manu` and `predays` has changed its sign after the removal of outliers with the magnitude becoming significantly smaller.
+
+In general, the removal of outliers in this exercise has an overall effect that cannot succintly be summerized. However, it is done in the hopes of delivering a clearer depiction of the underlying (joint) distribution.
+
+<br />
+
+### Question 4
+
+I will assume that, for this question, we use the entire dataset. To produce the QQ plots for this question, I will use the commands `qqnorm` for the actual plot and `qqline` for adding a reference line. The said plots are shown in Figure 6 in the Appendix (at the back of this document). As seen on Lecture Notes 1, if the dataset is jointly normal, then each component variable of this dataset should be normal as well (from p. 12). However, by assessing the QQ plots in Figure 6, it seems that the variables such as `SO2`, `manu`, `popul`, `precip`, and `predays` are not following the (univariate) normal distributions. Had they been, the QQ plots would have more or less followed the straight reference lines. As such, we cannot say that the US air pollution data is jointly normally distributed.
+
+In case outliers may have had any effect on checking the joint normality of the data with QQ plots, I also produce QQ plots using the outlier-removed dataset used in the previous questions. This is in Figure 7. However, it is visible from the said figure that variables such as `SO2` and `wind` have QQ plots deviating from the straight reference line. Therefore, it is difficult to say that even the data with the outliers removed is jointly normally distributed.
+
+### Question 5
+
+Since $X$ is $p\times 1$ and $Z$ is $q\times 1$, we can write $X$ and $Z$ as
+$$ 
+X = (X_1, X_2, \cdots, X_p)\\
+Z = (Z_1, Z_2, \cdots, Z_q)
+$$
+where for any $i \in \{1, 2, \cdots, p\}\equiv P$ and $j \in \{1, 2, \cdots, q\}\equiv Q$, $X_i$ and $Z_j$ are $i$th and $j$th components to $X$ and $Z$ respectively.
+
+Let the probability density function (PDF) of X be denoted as $f(X)$, and that of $X_i$ be denoted as $f_i(X_i)$ for any $i \in P$. Similarly, let the PDF of $Z$ be denoted as $g(X)$, and that of $Z_j$ be denoted as $g_j(Z_j)$ for any $j \in Q$. Cumulative density functions (CDF) for these functions will be denoted with capitalizations (e.g., CDF for $Z$ is $G(X)$, and CDF for $X_i$ is $F_i(X_i)$).
+
+I will also denote the joint PDF and CDF of $X$ and $Z$ as $h(X, Z)$ and $H(X, Z)$ and joint PDF and CDF of $X_i$ and $Z_j$ as $h_{ij}(X_i, Z_j)$ and $H_{ij}(X_i, Z_j)$. In addition, let set of values that $X$ can take be denoted as $S = (S_1, S_2, \cdots, S_p)$ and that for $Z$ be denoted as $R = (R_1, R_2, \cdots, R_q)$ (so that $S_i$ and $R_j$ are the set of values that $X_i$ and $Z_j$ can take, for any $i \in P$ and $j\in Q$).
+
+Let us fix arbitrary $i \in P$ and $j \in Q$. Notice that, with the above development,
+$$ f_i(X_i) = \int_{S_{-i}}\: f(X_i, X_{-i}) \:dF_{-i}(X_{-i})$$
+where $X_{-i} \equiv (X_1, \cdots, X_{i-1}, X_{i+1},\cdots, X_p)$, $S_{-i} \equiv (S_1, \cdots, S_{i-1}, S_{i+1}, \cdots, S_p)$ and $F_{-i}$ is the CDF for $X_{-i}$.
+
+Similarly, we can write:
+$$ g_j(Z_j) = \int_{R_{-j}}\: g(Z_i, Z_{-i}) \:dG_{-j}(Z_{-j}) $$ 
+and
+$$ h_{ij}(X_i, Z_j) = \int_{S_{-i}\times R_{-j}} h(X_i, X_{-i}, Z_j Z_{-j})\:dH_{-ij}(X_{-i}, Z_{-j})$$
+where $H_{-ij}$ is the CDF for $(X_{-i}, Z_{-j})$.
+
+What we know is that $X$ and $Z$ are independent; that is,
+$$ h(X, Z) = f(X)g(Z).$$
+We want to show that
+$$ h_{ij}(X_i, Z_j) = f_i(X_i)g_j(Z_j).$$
+From previous expositions, we can write:
+\begin{align}
+h_{ij}(X_i, Z_j) &= \int_{S_{-i}\times R_{-j}} h(X, Z)\: dH_{-ij}(X_{-i}, Z_{-j}) \\
+&= \int_{S_{-i}\times R_{-j}} f(X_i, X_{-i}) g(Z_j, Z_{-j})\: dH_{-ij}(X_{-i}, Z_{-j}) \\
+&= \int_{S_{-i}}\int_{R_{-j}} f(X_i, X_{-i}) g(Z_i, Z_{-j})\: dG_{-j}(Z_{-j})\:dF_{-i}(X_{-i})
+\end{align}
+where the second line is by independence of $X$ and $Z$; the third line is by Fubini's theorem. But we can also see that
+\begin{align}
+\int_{S_{-i}}\int_{R_{-j}} f(X_i, X_{-i}) g(Z_j, Z_{-j})\: dG_{-j}(Z_{-j})\:dF_{-i}(X_{-i}) &= \int_{S_{-i}}f(X_i, X_{-i}) \Big(\int_{R_{-j}} g(Z_j, Z_{-j})\: dG_{-j}(Z_{-j})\Big)\:dF_{-i}(X_{-i}) \\
+&= g_j(Z_j)\int_{S_{-i}} f(X_i, X_{-i})\: dF_{-i}(X_{-i}) = f_i(X_i)g_j(Z_j)
+\end{align}
+so combining the results, we get
+$$ h_{ij}(X_i, Z_j) = f_i(X_i)g_j(Z_j) $$
+which is what we wanted to show. But $i\in P$ and $j\in Q$ was arbitrarily chosen, so any component of $X$ is independent of any component of $Z$, as we wanted to show. This completes the proof.
