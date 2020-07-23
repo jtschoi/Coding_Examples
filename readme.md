@@ -17,6 +17,7 @@
 > Contains a `.ipynb` file that compares different machine learning models with hyperparameter tuning (via cross-validation) to show basic exposure to methods in machine learning. Also contains a `.pdf` version of an `.ipynb` file used in completing an assignment for the class *Applied Econometrics* at the University of Chicago, testing different nonparametric methods.
 
 ### Stata code samples
-> Contains two `.do` files. `simulation_exercise.do` was written to complete an assignment for the class *Applied Econometrics* at the University of Chicago, testing different estimation methods (fixed effects and instrumental variables). `data_analysis_example.do` is a sample for data cleaning and conducting basic regressions using Stata.
+> Contains three `.do` files. `simulation_exercise.do` was written to complete an assignment for the class *Applied Econometrics* at the University of Chicago, testing different estimation methods (fixed effects and instrumental variables). `survival_methods.do` was written to complete another assignment for the class *Econometric Applications* at Princeton University, testing different survival regression methods. Finally, `data_analysis_example.do` is a sample for data cleaning and conducting basic regressions using Stata.
 
-### R codes
+### R code sample
+> Contains a `.rmd` file written to complete an assignment for the class *Applied Multivariate Analysis* at the University of Chicago, which contains basic commands for statistical analyses and visualization.
