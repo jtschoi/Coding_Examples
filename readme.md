@@ -1,10 +1,10 @@
-# Coding Samples for Research Assistant Position
+# Coding Samples for Computational Research Proficiency
 ### Created by **Junho Choi**
 ### MA in Computational Social Science, University of Chicago
 <br/>
 
 ## Description
-> This repository contains example codes in Python, Stata, and R that may be relevant in assessing my proficiency as a research assistant / professional.
+> This repository contains example codes in Python, Stata, and R that may be relevant in assessing my proficiency in computational and empirical research.
 <br/>
 
 ## Contents
