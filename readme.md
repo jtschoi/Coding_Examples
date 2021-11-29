@@ -1,4 +1,4 @@
-# Coding Samples for Computational Research Proficiency
+# Coding Samples for Computational Research Capabilities
 ### Created by **Junho Choi**
 ### MA in Computational Social Science, University of Chicago
 <br/>
