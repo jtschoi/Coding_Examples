@@ -1,6 +1,6 @@
 # Coding Samples for Computational Research Capabilities
 ### Created by **Junho Choi**
-### MA in Computational Social Science, University of Chicago
+### Last updated July 2020 (written during MA in Computational Social Science, University of Chicago)
 <br/>
 
 ## Description
